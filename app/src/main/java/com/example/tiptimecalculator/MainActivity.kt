@@ -74,16 +74,37 @@ fun TipTimeLayout() {
                 .padding(bottom = 16.dp, top = 40.dp)
                 .align(alignment = Alignment.Start)
         )
+        EditNumberField(
+                modifier = Modifier
+                    .padding(bottom = 32.dp)
+                )
         Text(
-            text = stringResource(R.string.tip_amount,"$0.00")
+            text = stringResource(R.string.tip_amount,"$0.00"),
+            style = MaterialTheme.typography.displaySmall
         )
-        Spacer(modifier = Modifier.height(150.dp))
+
+        Spacer(
+            modifier = Modifier
+                .height(150.dp)
+        )
+
     }
 }
 
-private fun calculateTip(amount:Double,tipPercent:Double =15.0): String{
+private fun calculateTip(
+    amount:Double,tipPercent:Double =15.0): String{
     val tip = tipPercent / 100 * amount
     return NumberFormat.getCurrencyInstance().format(tip)
+}
+
+@Composable
+fun EditNumberField(modifier : Modifier = Modifier){
+    val amountInput = "0"
+    TextField(
+        value = amountInput,
+        onValueChange = {},
+        modifier = modifier
+    )
 }
 
 @Preview(showBackground = true)
