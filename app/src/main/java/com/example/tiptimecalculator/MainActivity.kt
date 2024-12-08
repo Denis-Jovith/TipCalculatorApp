@@ -1,10 +1,13 @@
 package com.example.tiptimecalculator
 
+import android.content.res.Resources
 import com.example.tiptimecalculator.R
 import android.os.Bundle
+import android.widget.Space
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -35,6 +38,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tiptimecalculator.ui.theme.TipTimeCalculatorTheme
+import java.nio.file.WatchEvent
 import java.text.NumberFormat
 
 class MainActivity : ComponentActivity() {
@@ -55,57 +59,29 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun TipTimeLayout() {
-    var amountInput by remember { mutableStateOf("") }
-
-    val amount = amountInput.toDoubleOrNull() ?: 0.0
-    val tip = calculateTip(amount)
-
-    Column(
+    Column (
         modifier = Modifier
-            .statusBarsPadding()
+           .statusBarsPadding()
             .padding(horizontal = 40.dp)
             .verticalScroll(rememberScrollState())
             .safeDrawingPadding(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
-    ) {
+    ){
         Text(
             text = stringResource(R.string.calculate_tip),
             modifier = Modifier
                 .padding(bottom = 16.dp, top = 40.dp)
                 .align(alignment = Alignment.Start)
         )
-        EditNumberField(
-            value = amountInput,
-            onValueChanged = { amountInput = it },
-            modifier = Modifier.padding(bottom = 32.dp).fillMaxWidth()
-        )
         Text(
-            text = stringResource(R.string.tip_amount, tip),
-            style = MaterialTheme.typography.displaySmall
+            text = stringResource(R.string.tip_amount,"$0.00")
         )
         Spacer(modifier = Modifier.height(150.dp))
     }
 }
 
-@Composable
-fun EditNumberField(
-    value: String,
-    onValueChanged: (String) -> Unit,
-    modifier: Modifier
-) {
-    TextField(
-        value = value,
-        singleLine = true,
-        modifier = modifier,
-        onValueChange = onValueChanged,
-        label = { Text(stringResource(R.string.bill_amount)) },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-    )
-}
-
-
-private fun calculateTip(amount: Double, tipPercent: Double = 15.0): String {
+private fun calculateTip(amount:Double,tipPercent:Double =15.0): String{
     val tip = tipPercent / 100 * amount
     return NumberFormat.getCurrencyInstance().format(tip)
 }
