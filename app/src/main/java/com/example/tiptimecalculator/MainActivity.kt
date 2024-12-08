@@ -1,5 +1,7 @@
 package com.example.tiptimecalculator
 
+
+import android.R.attr.label
 import android.content.res.Resources
 import com.example.tiptimecalculator.R
 import android.os.Bundle
@@ -59,6 +61,9 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun TipTimeLayout() {
+    var amountInput = remember{ mutableStateOf("") }
+    var amount = amountInput.value.toDoubleOrNull() ?: 0.0
+    val tip = calculateTip(amount)
     Column (
         modifier = Modifier
            .statusBarsPadding()
@@ -75,11 +80,14 @@ fun TipTimeLayout() {
                 .align(alignment = Alignment.Start)
         )
         EditNumberField(
+            value = amountInput.value,
+            onValueChange = {amountInput.value = it},
                 modifier = Modifier
                     .padding(bottom = 32.dp)
+                    .fillMaxWidth()
                 )
         Text(
-            text = stringResource(R.string.tip_amount,"$0.00"),
+            text = stringResource(R.string.tip_amount,tip),
             style = MaterialTheme.typography.displaySmall
         )
 
@@ -98,11 +106,19 @@ private fun calculateTip(
 }
 
 @Composable
-fun EditNumberField(modifier : Modifier = Modifier){
-    val amountInput = "0"
+fun EditNumberField(
+    value : String,
+    onValueChange:(String) -> Unit,
+    modifier : Modifier = Modifier){
+    var amountInput : MutableState<String> = remember {mutableStateOf("0")  }
+    val amount = amountInput.value.toDoubleOrNull() ?: 0.0
+    val tip = calculateTip(amount)
     TextField(
-        value = amountInput,
-        onValueChange = {},
+        label = { Text(stringResource(R.string.bill_amount))},
+        value = value,
+        onValueChange = onValueChange,
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
         modifier = modifier
     )
 }
