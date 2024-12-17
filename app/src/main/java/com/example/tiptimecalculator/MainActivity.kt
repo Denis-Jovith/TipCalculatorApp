@@ -58,6 +58,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+//TipTimeLayout
 
 @Composable
 fun TipTimeLayout() {
