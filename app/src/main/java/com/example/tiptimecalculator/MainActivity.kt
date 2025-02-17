@@ -53,7 +53,8 @@ fun TipTimeLayout() {
     var tipInput = remember { mutableStateOf("") }
     var amountInput = remember { mutableStateOf("") }
     val amount = amountInput.value.toDoubleOrNull() ?: 0.0
-    val tip = calculateTip(amount)
+    val tipPercent = tipInput.value.toDoubleOrNull() ?: 0.0
+    val tip = calculateTip(amount,tipPercent)
     Column(
         modifier = Modifier
             .statusBarsPadding()
