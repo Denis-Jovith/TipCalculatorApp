@@ -19,6 +19,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -74,6 +75,8 @@ fun TipTimeLayout() {
 @Composable
 fun EditNumberField(modifier: Modifier = Modifier) {
     var amountInput = remember { mutableStateOf("") }
+    val amount = amountInput.value.toDoubleOrNull() ?: 0.0
+    val tip = calculateTip(amount)
     TextField(
         value = amountInput.value,
         onValueChange = { amountInput.value = it },
@@ -83,7 +86,6 @@ fun EditNumberField(modifier: Modifier = Modifier) {
         modifier = modifier
     )
 }
-
 
 private fun calculateTip(amount: Double, tipPercent: Double = 15.0): String {
     val tip = tipPercent / 100 * amount
