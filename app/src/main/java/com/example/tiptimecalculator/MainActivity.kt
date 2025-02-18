@@ -54,6 +54,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
 @Composable
 fun TipTimeLayout() {
     var tipInput = remember { mutableStateOf("") }
