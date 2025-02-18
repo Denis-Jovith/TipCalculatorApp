@@ -127,7 +127,7 @@ fun RoundTheTipRow(modifier: Modifier = Modifier){
             .size(48.dp),
         verticalAlignment = Alignment.CenterVertically
     ){
-
+        Text(text = stringResource(R.string.round_up_tip))
     }
 }
 
