@@ -1,4 +1,4 @@
-package com.example.tiptimecalculator.ui.theme
+package com.example.artspaceapp.ui.theme
 
 
 import androidx.compose.material3.Typography
