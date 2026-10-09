@@ -113,7 +113,9 @@ export default function Links() {
             <p className="mt-1.5 text-sm text-white/70 max-w-xs">{tagline}</p>
           </div>
 
-          <div className="space-y-3">
+          <LiveAppsList apps={liveApps} />
+
+          <div className="space-y-3 mt-8">
             {destinations.map((d) => {
               const Icon = d.icon;
               const commonProps = {
@@ -140,8 +142,6 @@ export default function Links() {
               );
             })}
           </div>
-
-          <LiveAppsList apps={liveApps} />
 
           <div className="flex items-center justify-center gap-3 mt-8">
             <button
