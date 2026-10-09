@@ -17,6 +17,7 @@ import achievementRoutes from './routes/achievements.js';
 import commentRoutes from './routes/comments.js';
 import recommendationRoutes from './routes/recommendations.js';
 import seoRoutes from './routes/seo.js';
+import liveAppRoutes from './routes/liveApps.js';
 
 export function createApp() {
   const app = express();
@@ -46,6 +47,7 @@ export function createApp() {
   app.use('/api/achievements', achievementRoutes);
   app.use('/api/comments', commentRoutes);
   app.use('/api/recommendations', recommendationRoutes);
+  app.use('/api/live-apps', liveAppRoutes);
 
   app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
 

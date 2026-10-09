@@ -13,7 +13,8 @@ import {
   Inbox,
   LogOut,
   ExternalLink,
-  Users
+  Users,
+  Rocket
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import BrandMark from '../../components/BrandMark.jsx';
@@ -22,6 +23,7 @@ const NAV = [
   { to: '/admin', end: true, label: 'Overview', icon: LayoutDashboard },
   { to: '/admin/settings', label: 'Site Settings', icon: Settings },
   { to: '/admin/projects', label: 'Projects', icon: FolderKanban },
+  { to: '/admin/live-apps', label: 'Live Applications', icon: Rocket },
   { to: '/admin/achievements', label: 'Achievements', icon: Trophy },
   { to: '/admin/recommendations', label: 'Recommendations', icon: Star },
   { to: '/admin/comments', label: 'Comments', icon: MessageSquare },

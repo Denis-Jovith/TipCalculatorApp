@@ -9,6 +9,7 @@ import { TikTokIcon, ThreadsIcon } from '../components/BrandSocialIcons.jsx';
 import StyledQR, { downloadStyledQr } from '../components/StyledQR.jsx';
 import LoadingScreen from '../components/LoadingScreen.jsx';
 import ThemeToggle from '../components/ThemeToggle.jsx';
+import LiveAppsList from '../components/LiveAppsList.jsx';
 import { useMinLoadingTime } from '../hooks/useMinLoadingTime.js';
 
 const CUSTOM_ICONS = { TikTok: TikTokIcon, Threads: ThreadsIcon };
@@ -22,17 +23,21 @@ function resolveIcon(name) {
 export default function Links() {
   const [settings, setSettings] = useState(null);
   const [socialLinks, setSocialLinks] = useState([]);
+  const [liveApps, setLiveApps] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [showQr, setShowQr] = useState(false);
   const [copied, setCopied] = useState(false);
   const [qrCanvas, setQrCanvas] = useState(null);
 
   useEffect(() => {
-    Promise.allSettled([api.get('/settings'), api.get('/social-links')]).then(([s, sl]) => {
-      if (s.status === 'fulfilled') setSettings(s.value.data);
-      if (sl.status === 'fulfilled') setSocialLinks(sl.value.data);
-      setLoaded(true);
-    });
+    Promise.allSettled([api.get('/settings'), api.get('/social-links'), api.get('/live-apps')]).then(
+      ([s, sl, la]) => {
+        if (s.status === 'fulfilled') setSettings(s.value.data);
+        if (sl.status === 'fulfilled') setSocialLinks(sl.value.data);
+        if (la.status === 'fulfilled') setLiveApps(la.value.data);
+        setLoaded(true);
+      }
+    );
   }, []);
 
   const ready = useMinLoadingTime(loaded);
@@ -135,6 +140,8 @@ export default function Links() {
               );
             })}
           </div>
+
+          <LiveAppsList apps={liveApps} />
 
           <div className="flex items-center justify-center gap-3 mt-8">
             <button

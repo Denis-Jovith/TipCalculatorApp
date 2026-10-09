@@ -20,6 +20,7 @@ const AdminOverview = lazy(() => import('./pages/admin/AdminOverview.jsx'));
 const AdminUsers = lazy(() => import('./pages/admin/AdminUsers.jsx'));
 const AdminSettings = lazy(() => import('./pages/admin/AdminSettings.jsx'));
 const AdminProjects = lazy(() => import('./pages/admin/AdminProjects.jsx'));
+const AdminLiveApps = lazy(() => import('./pages/admin/AdminLiveApps.jsx'));
 const AdminAchievements = lazy(() => import('./pages/admin/AdminAchievements.jsx'));
 const AdminRecommendations = lazy(() => import('./pages/admin/AdminRecommendations.jsx'));
 const AdminComments = lazy(() => import('./pages/admin/AdminComments.jsx'));
@@ -90,6 +91,7 @@ export default function App() {
         <Route index element={<AdminOverview />} />
         <Route path="settings" element={<AdminSettings />} />
         <Route path="projects" element={<AdminProjects />} />
+        <Route path="live-apps" element={<AdminLiveApps />} />
         <Route path="achievements" element={<AdminAchievements />} />
         <Route path="recommendations" element={<AdminRecommendations />} />
         <Route path="comments" element={<AdminComments />} />

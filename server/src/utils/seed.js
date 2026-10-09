@@ -8,6 +8,7 @@ import Education from '../models/Education.js';
 import SocialLink from '../models/SocialLink.js';
 import Project from '../models/Project.js';
 import Achievement from '../models/Achievement.js';
+import LiveApp from '../models/LiveApp.js';
 
 export const skills = [
   { name: 'Windows Server Administration', category: 'Systems & Infrastructure', level: 90, order: 1 },
@@ -160,6 +161,40 @@ const socialLinks = [
   { platform: 'Phone / WhatsApp', url: 'https://wa.me/255758548912', icon: 'Phone', order: 4 }
 ];
 
+// Real, currently-operated platforms - edit freely from Admin -> Live Applications.
+// NOTE: "cepet.co.tz" is a best guess at the intended domain (typed as "cepe.to.tz") -
+// please correct it from the admin panel if that's not quite right.
+const liveApps = [
+  {
+    name: 'ATCL SACCOS',
+    url: 'https://atclsaccos.co.tz',
+    description: 'Corporate website and member platform for ATCL SACCOS, built, deployed and maintained end-to-end.',
+    status: 'live',
+    order: 1
+  },
+  {
+    name: 'CePET',
+    url: 'https://cepet.co.tz',
+    description: "Prof. Kalafunja M. O-saki's academic platform - digital identity, research library, CePET Academy, and confidential supervision workspace.",
+    status: 'live',
+    order: 2
+  },
+  {
+    name: 'Denis Jovitus Buberwa',
+    url: 'https://denisjovitusbuberwa.co.tz',
+    description: 'Companion domain for this portfolio.',
+    status: 'live',
+    order: 3
+  },
+  {
+    name: 'Jovinile Tech Force',
+    url: 'https://joviniletechforce.djb.co.tz',
+    description: 'In progress.',
+    status: 'coming-soon',
+    order: 4
+  }
+];
+
 const projects = [
   {
     title: 'ATCL SACCOS Corporate Website',
@@ -304,6 +339,11 @@ export async function seedDatabase({ verbose = false } = {}) {
   if ((await SocialLink.countDocuments()) === 0) {
     await SocialLink.insertMany(socialLinks);
     log(`Seeded ${socialLinks.length} social links`);
+  }
+
+  if ((await LiveApp.countDocuments()) === 0) {
+    await LiveApp.insertMany(liveApps);
+    log(`Seeded ${liveApps.length} live apps`);
   }
 
   if ((await Project.countDocuments()) === 0) {
