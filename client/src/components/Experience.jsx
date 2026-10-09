@@ -1,6 +1,38 @@
 import { motion } from 'framer-motion';
 import { Briefcase, GraduationCap } from 'lucide-react';
 
+function ZigzagTimeline({ items, icon: Icon, accent, renderBody }) {
+  return (
+    <div className="relative mx-auto mt-10 max-w-4xl">
+      <div
+        className={`absolute left-5 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b ${accent.line}`}
+        aria-hidden="true"
+      />
+      {items.map((item, i) => (
+        <motion.div
+          key={item._id || i}
+          initial={{ opacity: 1, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.5, delay: i * 0.06 }}
+          className={`relative mb-8 pl-16 md:w-1/2 md:pl-0 text-left ${
+            i % 2 ? 'md:ml-auto md:pl-12' : 'md:pr-12'
+          }`}
+        >
+          <span
+            className={`absolute top-3 grid place-items-center w-10 h-10 rounded-full border-4 border-bg ${accent.badge} shadow-glow left-0 md:left-auto ${
+              i % 2 ? 'md:-left-5' : 'md:-right-5'
+            }`}
+          >
+            <Icon size={16} aria-hidden="true" />
+          </span>
+          <div className="glass-card p-5">{renderBody(item, i)}</div>
+        </motion.div>
+      ))}
+    </div>
+  );
+}
+
 export default function Experience({ experience = [], education = [], settings }) {
   if (!experience.length && !education.length) return null;
 
@@ -10,33 +42,19 @@ export default function Experience({ experience = [], education = [], settings }
         initial={{ opacity: 1, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="section-title mb-12 text-center"
+        className="section-title mb-16 text-center"
       >
         {settings?.experienceTitle || 'Experience & Education'}
       </motion.h2>
 
-      <div className="grid lg:grid-cols-2 gap-10">
-        {/* Employment — arrives with a teal glow pulse so clicking "Experience" in the nav feels distinct */}
-        <motion.div
-          id="experience"
-          className="scroll-mt-28 rounded-2xl"
-          initial={{ boxShadow: '0 0 0px rgba(79,168,168,0)' }}
-          whileInView={{
-            boxShadow: [
-              '0 0 0px rgba(79,168,168,0)',
-              '0 0 45px rgba(79,168,168,0.55)',
-              '0 0 0px rgba(79,168,168,0)'
-            ]
-          }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 1.8, ease: 'easeInOut' }}
-        >
+      {experience.length > 0 && (
+        <div id="experience" className="scroll-mt-28 mb-20">
           <motion.h3
             initial={{ opacity: 1, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.6 }}
             transition={{ duration: 0.5 }}
-            className="text-brand-teal font-semibold uppercase tracking-wide text-sm mb-6 flex items-center gap-2"
+            className="text-brand-teal font-semibold uppercase tracking-wide text-sm text-center flex items-center justify-center gap-2"
           >
             <motion.span
               initial={{ rotate: -20, scale: 0.6, opacity: 1 }}
@@ -48,17 +66,13 @@ export default function Experience({ experience = [], education = [], settings }
             </motion.span>
             {settings?.employmentLabel || 'Employment'}
           </motion.h3>
-          <ol className="relative border-l border-surface-border space-y-8 pl-6">
-            {experience.map((job, i) => (
-              <motion.li
-                key={job._id || i}
-                initial={{ opacity: 1, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="relative"
-              >
-                <span className="absolute -left-[29px] top-1 w-3 h-3 rounded-full bg-brand-teal shadow-glow" />
+
+          <ZigzagTimeline
+            items={experience}
+            icon={Briefcase}
+            accent={{ line: 'from-brand-teal via-brand-violet to-brand-teal', badge: 'bg-brand-teal text-[#08122c]' }}
+            renderBody={(job) => (
+              <>
                 <p className="text-fg font-semibold">{job.role}</p>
                 <p className="text-brand-violet dark:text-brand-cream text-sm">
                   {job.organization} {job.location && `· ${job.location}`}
@@ -73,32 +87,20 @@ export default function Experience({ experience = [], education = [], settings }
                     ))}
                   </ul>
                 )}
-              </motion.li>
-            ))}
-          </ol>
-        </motion.div>
+              </>
+            )}
+          />
+        </div>
+      )}
 
-        {/* Education — arrives with a violet glow pulse + a graduation cap that spins in */}
-        <motion.div
-          id="education"
-          className="scroll-mt-28 rounded-2xl"
-          initial={{ boxShadow: '0 0 0px rgba(107,63,245,0)' }}
-          whileInView={{
-            boxShadow: [
-              '0 0 0px rgba(107,63,245,0)',
-              '0 0 45px rgba(107,63,245,0.55)',
-              '0 0 0px rgba(107,63,245,0)'
-            ]
-          }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 1.8, ease: 'easeInOut' }}
-        >
+      {education.length > 0 && (
+        <div id="education" className="scroll-mt-28">
           <motion.h3
             initial={{ opacity: 1, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.6 }}
             transition={{ duration: 0.5 }}
-            className="text-brand-violet dark:text-brand-cream font-semibold uppercase tracking-wide text-sm mb-6 flex items-center gap-2"
+            className="text-brand-violet dark:text-brand-cream font-semibold uppercase tracking-wide text-sm text-center flex items-center justify-center gap-2"
           >
             <motion.span
               initial={{ rotate: 180, scale: 0.4, opacity: 1 }}
@@ -110,27 +112,26 @@ export default function Experience({ experience = [], education = [], settings }
             </motion.span>
             {settings?.educationLabel || 'Education'}
           </motion.h3>
-          <ol className="relative border-l border-surface-border space-y-8 pl-6">
-            {education.map((edu, i) => (
-              <motion.li
-                key={edu._id || i}
-                initial={{ opacity: 1, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="relative"
-              >
-                <span className="absolute -left-[29px] top-1 w-3 h-3 rounded-full bg-brand-violet shadow-glow" />
+
+          <ZigzagTimeline
+            items={education}
+            icon={GraduationCap}
+            accent={{
+              line: 'from-brand-violet via-brand-teal to-brand-violet',
+              badge: 'bg-brand-violet text-white'
+            }}
+            renderBody={(edu) => (
+              <>
                 <p className="text-fg font-semibold">{edu.degree}</p>
                 <p className="text-brand-violet dark:text-brand-cream text-sm">{edu.school}</p>
                 <p className="text-muted text-xs">
                   {edu.period} {edu.details && `· ${edu.details}`}
                 </p>
-              </motion.li>
-            ))}
-          </ol>
-        </motion.div>
-      </div>
+              </>
+            )}
+          />
+        </div>
+      )}
     </section>
   );
 }

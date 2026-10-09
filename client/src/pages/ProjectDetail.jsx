@@ -8,6 +8,7 @@ import Footer from '../components/Footer.jsx';
 import VideoShowreel from '../components/VideoShowreel.jsx';
 import ScrollProgress from '../components/ScrollProgress.jsx';
 import LoadingScreen from '../components/LoadingScreen.jsx';
+import Lightbox from '../components/Lightbox.jsx';
 import { useMinLoadingTime } from '../hooks/useMinLoadingTime.js';
 
 export default function ProjectDetail() {
@@ -16,6 +17,7 @@ export default function ProjectDetail() {
   const [settings, setSettings] = useState(null);
   const [socialLinks, setSocialLinks] = useState([]);
   const [notFound, setNotFound] = useState(false);
+  const [lightboxSrc, setLightboxSrc] = useState(null);
 
   useEffect(() => {
     api
@@ -117,12 +119,21 @@ export default function ProjectDetail() {
         {project.images?.length > 0 && (
           <div className="grid sm:grid-cols-2 gap-4 mt-8">
             {project.images.map((img) => (
-              <img key={img} src={img} alt={`${project.title} screenshot`} className="rounded-xl w-full object-cover" />
+              <button
+                key={img}
+                type="button"
+                onClick={() => setLightboxSrc(img)}
+                className="cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-teal rounded-xl"
+                aria-label={`Enlarge ${project.title} screenshot`}
+              >
+                <img src={img} alt={`${project.title} screenshot`} className="rounded-xl w-full object-cover" />
+              </button>
             ))}
           </div>
         )}
       </main>
       <Footer settings={settings} socialLinks={socialLinks} />
+      <Lightbox src={lightboxSrc} alt={`${project.title} screenshot`} onClose={() => setLightboxSrc(null)} />
     </>
   );
 }

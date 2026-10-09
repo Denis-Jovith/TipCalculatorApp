@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { Send } from 'lucide-react';
 import { api } from '../api/client';
 import SocialBar from './SocialBar.jsx';
+import QRConnectCard from './QRConnectCard.jsx';
 
 const emptyForm = { name: '', email: '', subject: '', message: '' };
 const inputClass =
@@ -127,6 +128,7 @@ export default function ContactSection({ socialLinks = [], settings }) {
           <div>
             <SocialBar socialLinks={socialLinks} variant="bar" />
           </div>
+          <QRConnectCard settings={settings} />
         </motion.div>
       </div>
     </section>
