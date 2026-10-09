@@ -22,7 +22,8 @@ router.get('/sitemap.xml', async (_req, res) => {
     '#recommendations',
     '#connect',
     'projects',
-    'achievements'
+    'achievements',
+    'links'
   ];
 
   const urls = [

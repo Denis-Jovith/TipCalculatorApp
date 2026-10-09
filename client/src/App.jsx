@@ -5,6 +5,7 @@ import AllProjects from './pages/AllProjects.jsx';
 import AllAchievements from './pages/AllAchievements.jsx';
 import ProjectDetail from './pages/ProjectDetail.jsx';
 import AchievementDetail from './pages/AchievementDetail.jsx';
+import Links from './pages/Links.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import NotFound from './pages/NotFound.jsx';
 
@@ -42,6 +43,7 @@ export default function App() {
       <Route path="/projects/:slug" element={<ProjectDetail />} />
       <Route path="/achievements" element={<AllAchievements />} />
       <Route path="/achievements/:slug" element={<AchievementDetail />} />
+      <Route path="/links" element={<Links />} />
 
       <Route
         path="/admin/login"

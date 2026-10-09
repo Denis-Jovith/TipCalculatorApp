@@ -7,7 +7,8 @@ const QUICK_LINKS = [
   { href: '#skills', key: 'skills', fallback: 'Skills' },
   { href: '#projects', key: 'projects', fallback: 'Projects' },
   { href: '#achievements', key: 'achievements', fallback: 'Achievements' },
-  { href: '#connect', key: 'connect', fallback: 'Connect' }
+  { href: '#connect', key: 'connect', fallback: 'Connect' },
+  { href: '/links', key: 'links', fallback: 'All Links' }
 ];
 
 export default function Footer({ settings, socialLinks = [] }) {
@@ -43,11 +44,17 @@ export default function Footer({ settings, socialLinks = [] }) {
 
           {QUICK_LINKS.length > 0 && (
             <nav aria-label="Footer" className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted">
-              {QUICK_LINKS.map((l) => (
-                <a key={l.href} href={l.href} className="hover:text-brand-teal transition-colors">
-                  {nav[l.key] || l.fallback}
-                </a>
-              ))}
+              {QUICK_LINKS.map((l) =>
+                l.href.startsWith('/') ? (
+                  <Link key={l.href} to={l.href} className="hover:text-brand-teal transition-colors">
+                    {nav[l.key] || l.fallback}
+                  </Link>
+                ) : (
+                  <a key={l.href} href={l.href} className="hover:text-brand-teal transition-colors">
+                    {nav[l.key] || l.fallback}
+                  </a>
+                )
+              )}
             </nav>
           )}
 
