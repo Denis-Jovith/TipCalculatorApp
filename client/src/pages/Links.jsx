@@ -48,13 +48,15 @@ export default function Links() {
   const tagline = settings?.linksPageSubtitle || settings?.tagline || 'Multipurpose ICT Professional & Full-Stack MERN Developer';
   const pageUrl = `${(settings?.siteUrl || 'https://denisjovitusbuberwa.djb.co.tz').replace(/\/$/, '')}/links`;
   const visibleLinks = socialLinks.filter((s) => s.visible !== false);
+  const buttonLinks = visibleLinks.filter((l) => l.style !== 'icon');
+  const iconLinks = visibleLinks.filter((l) => l.style === 'icon');
 
   const destinations = [
     { key: 'portfolio', label: 'View Full Portfolio', url: '/', icon: Globe, internal: true },
     ...(settings?.resumeUrl
       ? [{ key: 'resume', label: 'Download Resume / CV', url: settings.resumeUrl, icon: Download }]
       : []),
-    ...visibleLinks.map((l) => ({ key: l._id || l.platform, label: l.platform, url: l.url, icon: resolveIcon(l.icon) }))
+    ...buttonLinks.map((l) => ({ key: l._id || l.platform, label: l.platform, url: l.url, icon: resolveIcon(l.icon) }))
   ];
 
   const handleShare = async () => {
@@ -143,6 +145,27 @@ export default function Links() {
             })}
           </div>
 
+          {iconLinks.length > 0 && (
+            <div className="flex items-center justify-center gap-3 mt-5">
+              {iconLinks.map((l) => {
+                const Icon = resolveIcon(l.icon);
+                return (
+                  <a
+                    key={l._id || l.platform}
+                    href={l.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={l.platform}
+                    title={l.platform}
+                    className="flex items-center justify-center w-11 h-11 rounded-full bg-white/10 hover:bg-white/15 border border-white/10 text-white transition-colors"
+                  >
+                    <Icon size={18} aria-hidden="true" />
+                  </a>
+                );
+              })}
+            </div>
+          )}
+
           <div className="flex items-center justify-center gap-3 mt-8">
             <button
               type="button"
@@ -173,7 +196,8 @@ export default function Links() {
               <StyledQR
                 value={pageUrl}
                 size={220}
-                logoUrl="/logo/icon-192.png"
+                logoUrl={settings?.qrLogoUrl || '/logo/icon-192.png'}
+                logoSize={settings?.qrLogoSize || 0.22}
                 color={settings?.qrColor || '#4FA8A8'}
                 bgColor={settings?.qrBgColor || '#08122c'}
                 onReady={setQrCanvas}

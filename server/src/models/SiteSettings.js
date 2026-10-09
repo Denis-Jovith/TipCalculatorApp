@@ -36,6 +36,11 @@ const siteSettingsSchema = new mongoose.Schema(
         '<p>I am a multipurpose ICT and software professional — equally at home securing enterprise infrastructure and shipping full-stack products. My primary stack is the <strong>MERN stack (MongoDB, Express.js, React.js, Node.js)</strong>, with additional proficiency in TypeScript, Python, Java, Kotlin, Ktor, C#, and PHP.</p><p>On the infrastructure side, I administer Windows and Linux servers, Active Directory, and Microsoft 365, manage cloud/VPS hosting, and configure firewalls and DNS — currently as an ICT Officer supporting a banking-adjacent SACCOS.</p><p>Beyond my day-to-day work, I&rsquo;m a <strong>cybersecurity enthusiast</strong> exploring ethical hacking, a <strong>blockchain explorer</strong>, and increasingly focused on <strong>AI agent systems and automation</strong> — always learning, always building.</p>'
     },
     heroImage: { type: String, default: '/seed/profile.jpeg' },
+    // What WhatsApp/Facebook/Twitter/Slack show as the preview image when any page of this
+    // site is shared - those crawlers only read static HTML meta tags, never run JS, so this
+    // needs its own admin-editable field rendered server-side (see server/src/routes/render.js)
+    // rather than just reusing whatever heroImage happens to be. Falls back to heroImage if blank.
+    shareImage: { type: String, default: '' },
     // Extra profile photos — when this has 2+ entries the hero shows an auto-playing,
     // pausable crossfade carousel instead of the single static heroImage.
     heroImages: { type: [String], default: [] },
@@ -103,6 +108,10 @@ const siteSettingsSchema = new mongoose.Schema(
     linksPageSubtitle: { type: String, default: '' },
     qrColor: { type: String, default: '#4FA8A8' },
     qrBgColor: { type: String, default: '#08122c' },
+    qrLogoUrl: { type: String, default: '/logo/icon-192.png' },
+    // Kept within 0.12-0.28 in the UI slider (and re-clamped in StyledQR itself) - see the
+    // comment above and in StyledQR.jsx for why this stays bounded.
+    qrLogoSize: { type: Number, default: 0.22, min: 0.12, max: 0.28 },
 
     // Footer — every piece is independently editable and may be left blank to omit it.
     footerCopyrightSymbol: { type: String, default: '©' },

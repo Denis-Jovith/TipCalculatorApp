@@ -231,12 +231,39 @@ export default function AdminSettings() {
             </div>
           </div>
 
+          <MediaUploadField
+            label="QR logo (shown at the centre of the QR code)"
+            value={settings.qrLogoUrl}
+            onChange={(url) => setSettings({ ...settings, qrLogoUrl: url })}
+            accept="image/*"
+            kind="image"
+          />
+          <div>
+            <label className="block text-xs uppercase tracking-wide text-slate-400 mb-1">
+              Logo size — {Math.round((settings.qrLogoSize ?? 0.22) * 100)}% of the QR
+            </label>
+            <input
+              type="range"
+              min={0.12}
+              max={0.28}
+              step={0.01}
+              value={settings.qrLogoSize ?? 0.22}
+              onChange={(e) => setSettings({ ...settings, qrLogoSize: Number(e.target.value) })}
+              className="w-full accent-brand-teal"
+            />
+            <p className="text-[11px] text-amber-400/80 mt-1">
+              Keep this between 12% and 28% — any larger and the logo can cover enough of the QR
+              pattern to break scanning. This range is also enforced automatically wherever the QR renders.
+            </p>
+          </div>
+
           <div className="flex flex-col items-center gap-3 rounded-lg border border-white/10 bg-black/20 p-6">
             <StyledQR
-              key={`${settings.qrColor}-${settings.qrBgColor}`}
+              key={`${settings.qrColor}-${settings.qrBgColor}-${settings.qrLogoUrl}-${settings.qrLogoSize}`}
               value={`${(settings.siteUrl || 'https://denisjovitusbuberwa.djb.co.tz').replace(/\/$/, '')}/links`}
               size={200}
-              logoUrl="/logo/icon-192.png"
+              logoUrl={settings.qrLogoUrl || '/logo/icon-192.png'}
+              logoSize={settings.qrLogoSize ?? 0.22}
               color={settings.qrColor || '#4FA8A8'}
               bgColor={settings.qrBgColor || '#08122c'}
               onReady={setQrCanvas}
@@ -327,7 +354,7 @@ export default function AdminSettings() {
         </section>
 
         <section className="space-y-4 border-t border-white/10 pt-6">
-          <h2 className="text-brand-teal text-sm font-semibold uppercase tracking-wide">SEO</h2>
+          <h2 className="text-brand-teal text-sm font-semibold uppercase tracking-wide">SEO &amp; link sharing</h2>
           <TextInput label="Site URL (used for sitemap.xml)" {...field('siteUrl')} />
           <TextInput label="SEO title" {...field('seoTitle')} />
           <TextInput label="SEO description" textarea {...field('seoDescription')} />
@@ -337,6 +364,17 @@ export default function AdminSettings() {
             rows={5}
             {...arrayField('seoKeywords')}
           />
+          <MediaUploadField
+            label="Link preview image (what WhatsApp / Facebook / Twitter / Slack show when any page of this site is shared — leave blank to reuse the hero photo)"
+            value={settings.shareImage}
+            onChange={(url) => setSettings({ ...settings, shareImage: url })}
+            accept="image/*"
+            kind="image"
+          />
+          <p className="text-xs text-slate-500 -mt-2">
+            Sharing a project or achievement page automatically shows that item's own title, summary and
+            image instead — this one is the fallback for the homepage, the Links page, and everywhere else.
+          </p>
         </section>
       </div>
     </div>

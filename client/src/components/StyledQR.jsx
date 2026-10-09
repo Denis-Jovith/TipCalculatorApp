@@ -55,6 +55,10 @@ export default function StyledQR({
       const drawable = size - margin * 2;
       const cell = drawable / count;
       ctx.fillStyle = color;
+      // Re-clamped here (not just in the admin UI) since logoSize can come straight from
+      // saved settings/QR designs - anything above ~0.28 of the drawable area starts
+      // covering enough modules to risk breaking a scan.
+      const safeLogoSize = Math.min(0.28, Math.max(0.12, logoSize));
 
       const drawCell = (x, y) => {
         const px = margin + x * cell;
@@ -115,7 +119,7 @@ export default function StyledQR({
         }
         if (cancelled) return;
 
-        const lw = drawable * logoSize;
+        const lw = drawable * safeLogoSize;
         const pad = lw * 0.16;
         const lx = (size - lw) / 2;
         const ly = (size - lw) / 2;

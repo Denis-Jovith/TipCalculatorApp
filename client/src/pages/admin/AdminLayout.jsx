@@ -14,7 +14,8 @@ import {
   LogOut,
   ExternalLink,
   Users,
-  Rocket
+  Rocket,
+  QrCode
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import BrandMark from '../../components/BrandMark.jsx';
@@ -31,6 +32,7 @@ const NAV = [
   { to: '/admin/experience', label: 'Experience', icon: Briefcase },
   { to: '/admin/education', label: 'Education', icon: GraduationCap },
   { to: '/admin/social', label: 'Social Links', icon: Share2 },
+  { to: '/admin/qr-codes', label: 'QR Codes', icon: QrCode },
   { to: '/admin/messages', label: 'Messages', icon: Inbox },
   { to: '/admin/users', label: 'Admin Users', icon: Users }
 ];

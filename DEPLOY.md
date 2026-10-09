@@ -92,6 +92,11 @@ curl http://localhost:5000/api/health   # should return {"status":"ok"}
 
 ## 5. Nginx: serve the site and proxy the API
 
+> **Already have this site live from an earlier deploy?** The config below changed — `location /`
+> now falls back to Node instead of serving `index.html` directly, so admin-edited share images/SEO
+> titles actually reach link-preview crawlers. Edit your existing `/etc/nginx/sites-available/djbportfolio`
+> to match it, then `sudo nginx -t && sudo systemctl reload nginx`. Nothing else in this step changes.
+
 Create `/etc/nginx/sites-available/djbportfolio`:
 
 ```nginx
@@ -104,9 +109,23 @@ server {
 
     client_max_body_size 65m;   # allow image/video/document uploads through Multer (60MB limit)
 
-    # React Router SPA fallback
+    # Real static files (JS/CSS chunks, icons, seed media, manifest, sw.js) are served straight
+    # from disk as before - fast, and completely unaffected by the change below. Only a path that
+    # ISN'T a real file (i.e. every SPA route: /, /links, /projects/:slug, /admin, ...) falls
+    # through to Node, which renders index.html with that page's og:title/description/image
+    # filled in live from Site Settings (see server/src/routes/render.js). Without this, link
+    # previews (WhatsApp/Facebook/Twitter/Slack) would always show whatever was baked into
+    # index.html at build time, no matter what you change in Admin -> Site Settings.
     location / {
-        try_files $uri $uri/ /index.html;
+        try_files $uri @node;
+    }
+    location @node {
+        proxy_pass http://127.0.0.1:5000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
 
     # Everything the Node API owns
@@ -125,6 +144,9 @@ server {
         proxy_pass http://127.0.0.1:5000;
     }
     location = /robots.txt {
+        proxy_pass http://127.0.0.1:5000;
+    }
+    location = /llms.txt {
         proxy_pass http://127.0.0.1:5000;
     }
 
@@ -191,9 +213,14 @@ curl -I https://denisjovitusbuberwa.djb.co.tz
 - Visit `https://denisjovitusbuberwa.djb.co.tz` — the site should load.
 - Visit `/admin/login` and sign in with the `ADMIN_EMAIL` / `ADMIN_PASSWORD` from step 2. **Change the
   password immediately** if you used a throwaway one.
-- Visit `/sitemap.xml` and `/robots.txt` — both should return real content, not 404s.
+- Visit `/sitemap.xml`, `/robots.txt` and `/llms.txt` — all three should return real content, not 404s.
 - In **Admin → Site Settings**, the "Site URL" field should already read
   `https://denisjovitusbuberwa.djb.co.tz` — double check it matches exactly.
+- Test the share preview: paste `https://denisjovitusbuberwa.djb.co.tz/links` into
+  [Facebook's Sharing Debugger](https://developers.facebook.com/tools/debug/) or
+  [Twitter Card Validator](https://cards-dev.twitter.com/validator) and confirm it shows the image
+  set in **Admin → Site Settings → SEO & link sharing → Link preview image** (set one there if
+  it's still blank — WhatsApp/Facebook cache previews aggressively, so re-scrape after changing it).
 
 ## 8. Deploying updates later
 

@@ -18,6 +18,8 @@ import commentRoutes from './routes/comments.js';
 import recommendationRoutes from './routes/recommendations.js';
 import seoRoutes from './routes/seo.js';
 import liveAppRoutes from './routes/liveApps.js';
+import qrDesignRoutes from './routes/qrDesigns.js';
+import renderRoutes from './routes/render.js';
 
 export function createApp() {
   const app = express();
@@ -48,8 +50,13 @@ export function createApp() {
   app.use('/api/comments', commentRoutes);
   app.use('/api/recommendations', recommendationRoutes);
   app.use('/api/live-apps', liveAppRoutes);
+  app.use('/api/qr-designs', qrDesignRoutes);
 
   app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
+
+  // Must come after every /api and /uploads route above, and last before the 404 fallback -
+  // it renders the SPA shell (with live, per-page meta tags) for anything else. See render.js.
+  app.use(renderRoutes);
 
   app.use((req, res) => {
     res.status(404).json({ message: `No route for ${req.method} ${req.originalUrl}` });

@@ -9,6 +9,7 @@ import SocialLink from '../models/SocialLink.js';
 import Project from '../models/Project.js';
 import Achievement from '../models/Achievement.js';
 import LiveApp from '../models/LiveApp.js';
+import QrDesign from '../models/QrDesign.js';
 
 export const skills = [
   { name: 'Windows Server Administration', category: 'Systems & Infrastructure', level: 90, order: 1 },
@@ -195,6 +196,20 @@ const liveApps = [
   }
 ];
 
+// A starting example for the "Saved QR codes" gallery in Admin -> QR Codes - admins can
+// add as many independent designs as they like (business cards, flyers, campaign links).
+const qrDesigns = [
+  {
+    name: 'Links page QR',
+    value: 'https://denisjovitusbuberwa.djb.co.tz/links',
+    color: '#4FA8A8',
+    bgColor: '#08122c',
+    logoUrl: '/logo/icon-192.png',
+    logoSize: 0.22,
+    order: 1
+  }
+];
+
 const projects = [
   {
     title: 'ATCL SACCOS Corporate Website',
@@ -344,6 +359,11 @@ export async function seedDatabase({ verbose = false } = {}) {
   if ((await LiveApp.countDocuments()) === 0) {
     await LiveApp.insertMany(liveApps);
     log(`Seeded ${liveApps.length} live apps`);
+  }
+
+  if ((await QrDesign.countDocuments()) === 0) {
+    await QrDesign.insertMany(qrDesigns);
+    log(`Seeded ${qrDesigns.length} QR designs`);
   }
 
   if ((await Project.countDocuments()) === 0) {

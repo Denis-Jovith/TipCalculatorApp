@@ -32,7 +32,8 @@ export default function QRConnectCard({ settings }) {
         <StyledQR
           value={url}
           size={220}
-          logoUrl="/logo/icon-192.png"
+          logoUrl={settings?.qrLogoUrl || '/logo/icon-192.png'}
+          logoSize={settings?.qrLogoSize || 0.22}
           color={settings?.qrColor || '#4FA8A8'}
           bgColor={settings?.qrBgColor || '#08122c'}
           onReady={(canvas) => {
