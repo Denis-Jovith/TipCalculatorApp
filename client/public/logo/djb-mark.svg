@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="DJB logo">
+  <defs>
+    <linearGradient id="chrome" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="35%" stop-color="#e2e8f0" />
+      <stop offset="55%" stop-color="#94a3b8" />
+      <stop offset="75%" stop-color="#e2e8f0" />
+      <stop offset="100%" stop-color="#cbd5e1" />
+    </linearGradient>
+    <linearGradient id="blue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a5f3fc" />
+      <stop offset="35%" stop-color="#38bdf8" />
+      <stop offset="70%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#1e3a8a" />
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="38%" r="70%">
+      <stop offset="0%" stop-color="#2563eb" stop-opacity="0.65" />
+      <stop offset="60%" stop-color="#1d4ed8" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="sheen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.35" />
+      <stop offset="45%" stop-color="#ffffff" stop-opacity="0" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </linearGradient>
+    <linearGradient id="edge" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#60a5fa" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <rect width="200" height="200" rx="44" fill="#04050f" />
+  <rect width="200" height="200" rx="44" fill="none" stroke="url(#edge)" stroke-width="1.5" opacity="0.7" />
+  <circle cx="100" cy="88" r="88" fill="url(#glow)" />
+
+  <g transform="translate(100 122) skewX(-9)" font-family="Arial, sans-serif" font-weight="800" font-size="102" text-anchor="middle" letter-spacing="-4">
+    <text x="-56" y="0" fill="url(#chrome)">D</text>
+    <text x="3" y="0" fill="url(#blue)">J</text>
+    <text x="58" y="0" fill="url(#chrome)">B</text>
+  </g>
+  <!-- glossy diagonal sheen across the wordmark -->
+  <g transform="translate(100 122) skewX(-9)" font-family="Arial, sans-serif" font-weight="800" font-size="102" text-anchor="middle" letter-spacing="-4" opacity="0.8">
+    <text x="-56" y="0" fill="url(#sheen)">D</text>
+    <text x="58" y="0" fill="url(#sheen)">B</text>
+  </g>
+
+  <!-- small triangular accent, echoing a speed/forward-motion mark -->
+  <path d="M 38 150 L 54 150 L 38 168 Z" fill="url(#blue)" opacity="0.9" />
+
+  <rect x="46" y="156" width="108" height="4" rx="2" fill="url(#blue)" opacity="0.9" />
+</svg>

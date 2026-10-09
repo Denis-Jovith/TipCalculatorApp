@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* A near-white page reads as glare on a bright phone/monitor — dialed down a notch to a
+     soft paper tone, and the near-black text softened to match, well clear of the AA
+     contrast floor either way. */
+  --bg: #e9ebf2;
+  --surface: rgba(15, 15, 26, 0.045);
+  --surface-2: rgba(15, 15, 26, 0.08);
+  --surface-border: rgba(15, 15, 26, 0.1);
+  --fg: #1b1d29;
+  --muted: #52566a;
+  --faint: #80839a;
+}
+
+[data-theme='dark'] {
+  --bg: #0a0a1a;
+  --surface: rgba(255, 255, 255, 0.05);
+  --surface-2: rgba(255, 255, 255, 0.1);
+  --surface-border: rgba(255, 255, 255, 0.1);
+  --fg: #f8fafc;
+  --muted: #cbd5e1;
+  --faint: #64748b;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  @apply bg-bg text-fg font-sans antialiased transition-colors duration-300;
+}
+
+::selection {
+  @apply bg-brand-teal/60 text-white;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Visible, high-contrast focus ring for keyboard navigation, independent of theme */
+:focus-visible {
+  outline: 2px solid #4fa8a8;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.skip-link {
+  @apply fixed left-4 top-4 z-[100] -translate-y-24 focus:translate-y-0 transition-transform bg-brand-teal text-[#08122c] font-semibold px-4 py-2 rounded-full;
+}
+
+.glass-card {
+  @apply bg-surface backdrop-blur-xl border border-surface-border rounded-2xl;
+}
+
+/* For dialogs that float over a dark scrim (fixed inset-0 bg-black/NN backdrop) — glass-card's
+   surface is only ~5% opaque, tuned to read as a subtle frosted panel against the page body.
+   Over a solid dark backdrop that same sliver of opacity reads as "dark" in both themes, since
+   backdrop-blur samples the (dark) scrim behind it. Modals need a fully opaque surface instead
+   so they always match the current theme regardless of what's behind them. */
+.modal-card {
+  @apply bg-bg border border-surface-border rounded-2xl shadow-2xl;
+}
+
+/* For text sitting on the page background (light in light mode, dark in dark mode) — stops are
+   swapped per theme so no segment ever comes close in hue/tone to what's behind it. */
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-teal via-brand-violet to-brand-olive dark:via-white dark:to-brand-cream;
+}
+
+/* For text sitting on the Hero band, whose background is a fixed dark purple gradient in both
+   themes — avoids violet entirely so no segment blends into the background behind it. */
+.hero-gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-teal via-white to-brand-cream;
+}
+
+.section-title {
+  @apply text-3xl sm:text-4xl font-bold text-fg tracking-tight;
+}
+
+/* Rich text (Tiptap) output styling shared by admin editor + public rendering */
+.prose-portfolio {
+  @apply text-muted leading-relaxed;
+}
+.prose-portfolio p {
+  @apply mb-4;
+}
+.prose-portfolio strong {
+  @apply text-fg font-semibold;
+}
+.prose-portfolio em {
+  @apply italic;
+}
+.prose-portfolio ul {
+  @apply list-disc list-inside mb-4 space-y-1;
+}
+.prose-portfolio ol {
+  @apply list-decimal list-inside mb-4 space-y-1;
+}
+.prose-portfolio a {
+  @apply text-brand-teal underline underline-offset-2 hover:text-fg transition-colors;
+}
+.prose-portfolio img {
+  @apply rounded-xl my-4 max-w-full;
+}
+.prose-portfolio img.align-left {
+  @apply float-left mr-4 mb-2 max-w-[45%];
+}
+.prose-portfolio img.align-right {
+  @apply float-right ml-4 mb-2 max-w-[45%];
+}
+.prose-portfolio img.align-center {
+  @apply mx-auto block;
+}
+.prose-portfolio iframe {
+  @apply rounded-xl my-4 w-full aspect-video;
+}

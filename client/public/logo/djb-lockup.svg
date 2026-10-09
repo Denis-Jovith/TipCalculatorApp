@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 480" role="img" aria-label="DJB — Digital Business Journey">
+  <defs>
+    <linearGradient id="chrome" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="35%" stop-color="#e2e8f0" />
+      <stop offset="55%" stop-color="#94a3b8" />
+      <stop offset="75%" stop-color="#e2e8f0" />
+      <stop offset="100%" stop-color="#cbd5e1" />
+    </linearGradient>
+    <linearGradient id="blue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a5f3fc" />
+      <stop offset="35%" stop-color="#38bdf8" />
+      <stop offset="70%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#1e3a8a" />
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="38%" r="55%">
+      <stop offset="0%" stop-color="#2563eb" stop-opacity="0.55" />
+      <stop offset="60%" stop-color="#1d4ed8" stop-opacity="0.18" />
+      <stop offset="100%" stop-color="#1d4ed8" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="sheen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.35" />
+      <stop offset="45%" stop-color="#ffffff" stop-opacity="0" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+    </linearGradient>
+    <linearGradient id="rule" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0" />
+      <stop offset="50%" stop-color="#38bdf8" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <rect width="900" height="480" fill="#04050f" />
+  <circle cx="450" cy="190" r="320" fill="url(#glow)" />
+
+  <g transform="translate(450 250) skewX(-9)" font-family="Arial, sans-serif" font-weight="800" font-size="200" text-anchor="middle" letter-spacing="-8">
+    <text x="-165" y="0" fill="url(#chrome)">D</text>
+    <text x="8" y="0" fill="url(#blue)">J</text>
+    <text x="172" y="0" fill="url(#chrome)">B</text>
+  </g>
+  <g transform="translate(450 250) skewX(-9)" font-family="Arial, sans-serif" font-weight="800" font-size="200" text-anchor="middle" letter-spacing="-8" opacity="0.75">
+    <text x="-165" y="0" fill="url(#sheen)">D</text>
+    <text x="172" y="0" fill="url(#sheen)">B</text>
+  </g>
+
+  <rect x="60" y="296" width="780" height="3" fill="url(#rule)" />
+
+  <text x="450" y="345" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="34" letter-spacing="5">
+    <tspan fill="url(#chrome)">DIGITAL </tspan><tspan fill="url(#blue)">BUSINESS </tspan><tspan fill="url(#chrome)">JOURNEY</tspan>
+  </text>
+
+  <!-- strapline: INNOVATE | (shield) SECURE | (triangle) TRANSFORM | (star) EXCEL -->
+  <g font-family="Arial, sans-serif" font-weight="600" font-size="18" letter-spacing="3" fill="#94a3b8">
+    <text x="185" y="430" text-anchor="middle">INNOVATE</text>
+    <text x="325" y="430" fill="#475569">|</text>
+
+    <g transform="translate(365 422)">
+      <path d="M0,-11 L10,-6 L10,4 C10,10 5,14 0,16 C-5,14 -10,10 -10,4 L-10,-6 Z" fill="none" stroke="url(#blue)" stroke-width="2" />
+      <circle cx="0" cy="2" r="2.4" fill="url(#blue)" />
+    </g>
+    <text x="425" y="430" text-anchor="middle">SECURE</text>
+    <text x="495" y="430" fill="#475569">|</text>
+
+    <g transform="translate(535 424)">
+      <path d="M -10 9 L 10 9 L 10 -9 Z" fill="url(#blue)" />
+    </g>
+    <text x="610" y="430" text-anchor="middle">TRANSFORM</text>
+    <text x="705" y="430" fill="#475569">|</text>
+
+    <g transform="translate(742 422)">
+      <path d="M 0.00 -11.00 L 2.59 -3.56 L 10.46 -3.40 L 4.18 1.36 L 6.47 8.90 L 0.00 4.40 L -6.47 8.90 L -4.18 1.36 L -10.46 -3.40 L -2.59 -3.56 Z" fill="url(#blue)" />
+    </g>
+    <text x="790" y="430" text-anchor="middle">EXCEL</text>
+  </g>
+</svg>
