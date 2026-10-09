@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { Save } from 'lucide-react';
+import { Save, Download } from 'lucide-react';
 import { api } from '../../api/client';
 import RichTextEditor from '../../components/richtext/RichTextEditor.jsx';
 import MediaUploadField from '../../components/admin/MediaUploadField.jsx';
 import MultiImageUploadField from '../../components/admin/MultiImageUploadField.jsx';
+import StyledQR, { downloadStyledQr } from '../../components/StyledQR.jsx';
 
 const inputClass =
   'w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-brand-teal';
@@ -22,6 +23,7 @@ function TextInput({ label, textarea, rows = 2, ...props }) {
 export default function AdminSettings() {
   const [settings, setSettings] = useState(null);
   const [saving, setSaving] = useState(false);
+  const [qrCanvas, setQrCanvas] = useState(null);
 
   useEffect(() => {
     api.get('/settings').then(({ data }) => setSettings(data));
@@ -133,6 +135,7 @@ export default function AdminSettings() {
             <TextInput label="Achievements" {...navField('achievements')} />
             <TextInput label="Recommendations" {...navField('recommendations')} />
             <TextInput label="Connect" {...navField('connect')} />
+            <TextInput label="Links" {...navField('links')} />
           </div>
         </section>
 
@@ -185,6 +188,69 @@ export default function AdminSettings() {
           <h2 className="text-brand-teal text-sm font-semibold uppercase tracking-wide">Connect</h2>
           <TextInput label="Connect section title" {...field('connectTitle')} />
           <TextInput label="Connect section subtitle" textarea {...field('connectSubtitle')} />
+        </section>
+
+        <section className="space-y-4 border-t border-white/10 pt-6">
+          <h2 className="text-brand-teal text-sm font-semibold uppercase tracking-wide">Links page &amp; QR code</h2>
+          <p className="text-xs text-slate-500 -mt-2">
+            Controls the standalone <code>/links</code> page (your shareable "link in bio" page) and the QR codes
+            shown there and in the Connect section. Leave heading/subtitle blank to fall back to your name and
+            tagline. QR colours apply everywhere the QR code appears — keep strong contrast between them so it
+            still scans.
+          </p>
+          <TextInput label="Links page heading (blank = your full name)" {...field('linksPageHeading')} />
+          <TextInput
+            label="Links page subtitle (blank = your tagline)"
+            textarea
+            {...field('linksPageSubtitle')}
+          />
+          <div className="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs uppercase tracking-wide text-slate-400 mb-1">QR code colour</label>
+              <div className="flex items-center gap-2">
+                <input
+                  type="color"
+                  value={settings.qrColor || '#4FA8A8'}
+                  onChange={(e) => setSettings({ ...settings, qrColor: e.target.value })}
+                  className="w-10 h-10 rounded border border-white/10 bg-transparent cursor-pointer"
+                />
+                <input {...field('qrColor')} placeholder="#4FA8A8" className={inputClass} />
+              </div>
+            </div>
+            <div>
+              <label className="block text-xs uppercase tracking-wide text-slate-400 mb-1">QR background colour</label>
+              <div className="flex items-center gap-2">
+                <input
+                  type="color"
+                  value={settings.qrBgColor || '#08122c'}
+                  onChange={(e) => setSettings({ ...settings, qrBgColor: e.target.value })}
+                  className="w-10 h-10 rounded border border-white/10 bg-transparent cursor-pointer"
+                />
+                <input {...field('qrBgColor')} placeholder="#08122c" className={inputClass} />
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col items-center gap-3 rounded-lg border border-white/10 bg-black/20 p-6">
+            <StyledQR
+              key={`${settings.qrColor}-${settings.qrBgColor}`}
+              value={`${(settings.siteUrl || 'https://denisjovitusbuberwa.djb.co.tz').replace(/\/$/, '')}/links`}
+              size={200}
+              logoUrl="/logo/icon-192.png"
+              color={settings.qrColor || '#4FA8A8'}
+              bgColor={settings.qrBgColor || '#08122c'}
+              onReady={setQrCanvas}
+              className="rounded-lg"
+            />
+            <button
+              type="button"
+              onClick={() => downloadStyledQr(qrCanvas, 'djb-links-qr.png')}
+              className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 text-white text-sm font-medium hover:bg-white/10 transition-colors"
+            >
+              <Download size={14} /> Download this QR as PNG
+            </button>
+            <p className="text-[10px] uppercase tracking-wide text-slate-700">Live preview — save changes above to apply site-wide</p>
+          </div>
         </section>
 
         <section className="space-y-4 border-t border-white/10 pt-6">

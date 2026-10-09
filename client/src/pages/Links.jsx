@@ -8,6 +8,7 @@ import { api } from '../api/client';
 import { TikTokIcon, ThreadsIcon } from '../components/BrandSocialIcons.jsx';
 import StyledQR, { downloadStyledQr } from '../components/StyledQR.jsx';
 import LoadingScreen from '../components/LoadingScreen.jsx';
+import ThemeToggle from '../components/ThemeToggle.jsx';
 import { useMinLoadingTime } from '../hooks/useMinLoadingTime.js';
 
 const CUSTOM_ICONS = { TikTok: TikTokIcon, Threads: ThreadsIcon };
@@ -38,7 +39,8 @@ export default function Links() {
   if (!ready) return <LoadingScreen />;
 
   const name = settings?.fullName || 'Denis Jovitus Buberwa';
-  const tagline = settings?.tagline || 'Multipurpose ICT Professional & Full-Stack MERN Developer';
+  const heading = settings?.linksPageHeading || name;
+  const tagline = settings?.linksPageSubtitle || settings?.tagline || 'Multipurpose ICT Professional & Full-Stack MERN Developer';
   const pageUrl = `${(settings?.siteUrl || 'https://denisjovitusbuberwa.djb.co.tz').replace(/\/$/, '')}/links`;
   const visibleLinks = socialLinks.filter((s) => s.visible !== false);
 
@@ -80,12 +82,15 @@ export default function Links() {
 
       <div className="min-h-screen bg-brand-gradient-radial dark:bg-brand-gradient-radial-dark px-5 py-8 sm:py-12">
         <div className="max-w-md mx-auto">
-          <RouterLink
-            to="/"
-            className="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm mb-8 transition-colors"
-          >
-            <ArrowLeft size={16} aria-hidden="true" /> Back to portfolio
-          </RouterLink>
+          <div className="flex items-center justify-between mb-8">
+            <RouterLink
+              to="/"
+              className="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm transition-colors"
+            >
+              <ArrowLeft size={16} aria-hidden="true" /> Back to portfolio
+            </RouterLink>
+            <ThemeToggle forceLight />
+          </div>
 
           <div className="flex flex-col items-center text-center mb-8">
             <div className="relative mb-5">
@@ -99,7 +104,7 @@ export default function Links() {
                 className="relative w-24 h-24 rounded-full object-cover border-4 border-white/20 shadow-glow"
               />
             </div>
-            <h1 className="text-2xl font-display font-bold text-white">{name}</h1>
+            <h1 className="text-2xl font-display font-bold text-white">{heading}</h1>
             <p className="mt-1.5 text-sm text-white/70 max-w-xs">{tagline}</p>
           </div>
 
@@ -162,6 +167,8 @@ export default function Links() {
                 value={pageUrl}
                 size={220}
                 logoUrl="/logo/icon-192.png"
+                color={settings?.qrColor || '#4FA8A8'}
+                bgColor={settings?.qrBgColor || '#08122c'}
                 onReady={setQrCanvas}
                 className="rounded-xl"
               />

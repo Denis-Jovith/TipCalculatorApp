@@ -54,7 +54,8 @@ const siteSettingsSchema = new mongoose.Schema(
         projects: { type: String, default: 'Projects' },
         achievements: { type: String, default: 'Achievements' },
         recommendations: { type: String, default: 'Recommendations' },
-        connect: { type: String, default: 'Connect' }
+        connect: { type: String, default: 'Connect' },
+        links: { type: String, default: 'Links' }
       },
       default: {}
     },
@@ -92,6 +93,16 @@ const siteSettingsSchema = new mongoose.Schema(
       type: String,
       default: 'Have a project in mind, or just want to say hi? Reach out on any platform below.'
     },
+
+    // The standalone /links "link in bio" page and the QR codes shown there and on the
+    // homepage Connect section (both render via the same StyledQR component). Module shape
+    // is deliberately not exposed here — 'square' is the only shape verified reliable across
+    // payload lengths (see StyledQR.jsx) and a customizable shape could silently reintroduce
+    // that scan-failure bug. Colour is safe to customize as long as contrast stays high.
+    linksPageHeading: { type: String, default: '' },
+    linksPageSubtitle: { type: String, default: '' },
+    qrColor: { type: String, default: '#4FA8A8' },
+    qrBgColor: { type: String, default: '#08122c' },
 
     // Footer — every piece is independently editable and may be left blank to omit it.
     footerCopyrightSymbol: { type: String, default: '©' },

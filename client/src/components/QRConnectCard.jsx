@@ -33,6 +33,8 @@ export default function QRConnectCard({ settings }) {
           value={url}
           size={220}
           logoUrl="/logo/icon-192.png"
+          color={settings?.qrColor || '#4FA8A8'}
+          bgColor={settings?.qrBgColor || '#08122c'}
           onReady={(canvas) => {
             canvasRef.current = canvas;
           }}

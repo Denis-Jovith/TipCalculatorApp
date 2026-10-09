@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import ThemeToggle from './ThemeToggle.jsx';
 import BrandMark from './BrandMark.jsx';
@@ -21,7 +22,8 @@ export default function Navbar({ settings, hasHero = true }) {
     { href: '#projects', label: nav.projects || 'Projects' },
     { href: '#achievements', label: nav.achievements || 'Achievements' },
     { href: '#recommendations', label: nav.recommendations || 'Recommendations' },
-    { href: '#connect', label: nav.connect || 'Connect' }
+    { href: '#connect', label: nav.connect || 'Connect' },
+    { href: '/links', label: nav.links || 'Links', route: true }
   ];
 
   useEffect(() => {
@@ -62,9 +64,15 @@ export default function Navbar({ settings, hasHero = true }) {
         >
           {LINKS.map((link) => (
             <li key={link.href}>
-              <a href={link.href} className="hover:text-brand-teal transition-colors">
-                {link.label}
-              </a>
+              {link.route ? (
+                <Link to={link.href} className="hover:text-brand-teal transition-colors">
+                  {link.label}
+                </Link>
+              ) : (
+                <a href={link.href} className="hover:text-brand-teal transition-colors">
+                  {link.label}
+                </a>
+              )}
             </li>
           ))}
         </ul>
@@ -93,13 +101,23 @@ export default function Navbar({ settings, hasHero = true }) {
         >
           {LINKS.map((link) => (
             <li key={link.href}>
-              <a
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className="block py-2 text-fg hover:text-brand-teal"
-              >
-                {link.label}
-              </a>
+              {link.route ? (
+                <Link
+                  to={link.href}
+                  onClick={() => setOpen(false)}
+                  className="block py-2 text-fg hover:text-brand-teal"
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <a
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className="block py-2 text-fg hover:text-brand-teal"
+                >
+                  {link.label}
+                </a>
+              )}
             </li>
           ))}
         </motion.ul>
